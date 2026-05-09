@@ -8,12 +8,20 @@ After CI runs on `main`: **[https://luccmattos.github.io/arenacash/](https://luc
 
 **Repository:** [github.com/luccmattos/arenacash](https://github.com/luccmattos/arenacash)
 
-### One-time GitHub settings
+### GitHub Pages source (required — fixes blank page)
 
-1. Repo **Settings → Pages → Build and deployment**
-2. Source: **GitHub Actions** (not “Deploy from a branch”).
+**Do not use “Deploy from a branch” at `/(root)`.** That publishes the **source** `index.html`, which loads `/src/main.tsx`. Browsers cannot run Vite/TSX directly, so the site stays **blank**.
 
-The workflow [.github/workflows/deploy-github-pages.yml](.github/workflows/deploy-github-pages.yml) builds with `base: /arenacash/` and copies `index.html` to `404.html` so deep links work on Pages.
+You must publish the **built** app (`npm run build` → `dist/`). This repo does that via Actions.
+
+1. Open **Settings → Pages → Build and deployment**.
+2. Under **Source**, select **GitHub Actions** (not “Deploy from a branch”).
+3. Save. Then open **Actions**, run **Deploy to GitHub Pages** (or push to `main`). Wait for green check.
+4. Hard-refresh the live URL or wait ~1 minute for CDN.
+
+If an old “Deploy from a branch” deployment still appears, switching to **GitHub Actions** replaces it.
+
+The workflow [.github/workflows/deploy-github-pages.yml](.github/workflows/deploy-github-pages.yml) runs `npm ci`, `npm run build`, uploads `dist/`, and deploys. `base` is `/arenacash/`; `postbuild` copies `index.html` to `404.html` for SPA routes on Pages.
 
 ## Run locally
 
