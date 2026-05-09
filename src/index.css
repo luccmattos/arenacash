@@ -1,0 +1,6 @@
+@import './styles/tokens.css';
+@import './styles/onboarding.css';
+
+#root {
+  min-height: 100dvh;
+}
